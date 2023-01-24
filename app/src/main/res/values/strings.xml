@@ -10,4 +10,5 @@
     <string name="invalidNumberError">Enter a valid rate!</string>
     <string name="notNetworkConnection">The network connection is currently unavailable,
         but you can still use the data that has already been loaded from the internet if it was previously obtained from the server.</string>
+    <string name="loadingLabel">Loading currencies...</string>
 </resources>

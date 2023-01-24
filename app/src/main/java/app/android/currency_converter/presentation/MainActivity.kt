@@ -3,7 +3,6 @@ package app.android.currency_converter.presentation
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -13,7 +12,6 @@ import app.android.currency_converter.application.BaseActivity
 import app.android.currency_converter.core.theme.CurrencyConverterTheme
 import app.android.currency_converter.core.theme.black
 import app.android.currency_converter.data.helpers.NetworkConnection
-import app.android.currency_converter.di.NetworkModule
 import app.android.currency_converter.presentation.home.HomeScreen
 import app.android.currency_converter.presentation.home.HomeViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController

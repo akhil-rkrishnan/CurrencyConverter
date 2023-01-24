@@ -23,7 +23,7 @@ import app.android.currency_converter.presentation.utils.fontDimensionResource
  * @param color color for the progress loader
 */
 @Composable
-fun LinearProgressbar(modifier: Modifier = Modifier, color: Color = black) {
+fun LinearProgressbar(modifier: Modifier = Modifier, color: Color = black, loadingLabel: String) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dp8)),
@@ -34,7 +34,7 @@ fun LinearProgressbar(modifier: Modifier = Modifier, color: Color = black) {
             modifier = Modifier.padding(all = dimensionResource(id = R.dimen.dp16)),
             color = color,
         )
-        Text(text = "Loading currencies...", style = LocalTextStyle.current.copy(
+        Text(text = loadingLabel, style = LocalTextStyle.current.copy(
             color = black,
             fontSize = fontDimensionResource(id = R.dimen.sp16),
             fontFamily = FontFamily(Font(R.font.poppins_regular)),

@@ -119,7 +119,7 @@ fun HomeScreen(viewModel: HomeViewModel, hasNetwork: Boolean) {
                 height = Dimension.fillToConstraints
             }, enter = fadeIn(), exit = fadeOut()
         ) {
-            LinearProgressbar(color = black)
+            LinearProgressbar(color = black, loadingLabel = stringResource(R.string.loadingLabel))
         }
 
         AnimatedVisibility(

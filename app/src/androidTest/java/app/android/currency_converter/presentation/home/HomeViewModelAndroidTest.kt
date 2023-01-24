@@ -83,6 +83,9 @@ class HomeViewModelAndroidTest {
         )
     }
 
+    /**
+    * Testing data from preference
+    */
     @Test
     fun checkLocalCurrencyAndExchangeRate_isNull() = runTest {
         //checking country map from preferences
@@ -91,6 +94,9 @@ class HomeViewModelAndroidTest {
         assertThat(viewModel.loadExchangeRateFromPref()).isNull()
     }
 
+    /**
+     * Testing data from preference
+     */
     @Test
     fun checkLocalCurrency_isNotNull() = runTest {
         // fetching country from api method initially and saving to preferences
@@ -98,6 +104,9 @@ class HomeViewModelAndroidTest {
         assertThat(viewModel.loadCountriesFromPref()).isNotNull()
     }
 
+    /**
+     * Testing data from preference
+     */
     @Test
     fun checkLatestExchangeRate_isNotNull() = runTest {
         // fetching latest exchange rate from api method initially and saving to preferences
@@ -105,6 +114,9 @@ class HomeViewModelAndroidTest {
         assertThat(viewModel.loadExchangeRateFromPref()).isNotNull()
     }
 
+    /**
+     * Testing data from preference
+     */
     @Test
     fun checkLastSavedTimeStamp_isNotNull() = runTest {
         // fetching last saved time stamp from preferences after api call
