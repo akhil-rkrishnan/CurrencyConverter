@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CurrencyConverter</string>
+    <string name="tempLabel">United States Dollar</string>
+    <string name="enterValidInput">Enter a valid input</string>
+    <string name="homeTitle">Currency Converter</string>
+    <string name="selectAnItem">Select an item!</string>
+    <string name="contentDescription">contentDescription</string>
+    <string name="test_conversion_error">Currency conversion error</string>
+    <string name="invalidMessage">Invalid message!</string>
+    <string name="invalidNumberError">Enter a valid rate!</string>
+    <string name="notNetworkConnection">The network connection is currently unavailable,
+        but you can still use the data that has already been loaded from the internet if it was previously obtained from the server.</string>
+</resources>
