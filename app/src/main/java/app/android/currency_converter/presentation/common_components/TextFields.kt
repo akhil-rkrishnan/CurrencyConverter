@@ -1,6 +1,9 @@
 package app.android.currency_converter.presentation.common_components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,15 +15,20 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import app.android.currency_converter.R
 import app.android.currency_converter.core.theme.black
 import app.android.currency_converter.core.theme.grey
@@ -30,7 +38,7 @@ import app.android.currency_converter.presentation.utils.fontDimensionResource
 import app.android.currency_converter.presentation.utils.persistShortKeyForInput
 
 /**
-* Composable for currency input field
+ * Composable for currency input field
  * @param modifier modifier for the composable
  * @param defaultText default text for the field
  * @param currencySymbol default currency symbol
@@ -38,7 +46,7 @@ import app.android.currency_converter.presentation.utils.persistShortKeyForInput
  * @param onTextChange lambda for text change call back
  * @param onTextInputError lambda for text input error call back
  * @param onSubmitText lambda for submit text call back
-*/
+ */
 @Composable
 fun CurrencyInput(
     modifier: Modifier = Modifier,
@@ -118,4 +126,77 @@ fun CurrencyInput(
         )
 
     }
+}
+
+/**
+ * Composable for search input field
+ * @param modifier modifier for the composable
+ * @param onTextChange lambda for text change call back
+ * @param onSubmitText lambda for submit text call back
+ */
+@Composable
+fun SearchBox(
+    modifier: Modifier = Modifier,
+    hint: String,
+    onTextChange: (String) -> Unit,
+    onSubmitText: (String) -> Unit
+) {
+    var searchText by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(
+                dimensionResource(id = R.dimen.textFieldHeight)
+            )
+            .border(border = BorderStroke(width = 2.dp, color = Color.Gray), shape = RoundedCornerShape(10.dp))
+            .background(white, RoundedCornerShape(10.dp))
+            .height(
+                dimensionResource(id = R.dimen.textFieldHeight)
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = CenterVertically
+    ) {
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = { value ->
+                searchText = value
+                onTextChange(searchText.text)
+            }, placeholder = {
+                Text(text = hint, style = TextStyle(color = Color.Gray, fontSize = 16.sp))
+            },
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .persistShortKeyForInput(searchText),
+            keyboardActions = KeyboardActions(onDone = {
+                onSubmitText(searchText.text)
+            }),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text
+            ),
+            singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = white,
+                unfocusedIndicatorColor = white,
+                cursorColor = black,
+                backgroundColor = white,
+            ),
+            textStyle = LocalTextStyle.current.copy(
+                color = black,
+                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                fontSize = fontDimensionResource(id = R.dimen.sp20)
+            )
+        )
+        Image(
+            painter = painterResource(id = R.drawable.icon_search),
+            modifier = Modifier
+                .padding(end = dimensionResource(id = R.dimen.dp20))
+                .size(24.dp),
+            contentDescription = "Search icon"
+        )
+
+    }
+
 }

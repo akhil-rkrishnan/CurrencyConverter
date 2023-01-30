@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,17 +14,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.android.currency_converter.R
 import app.android.currency_converter.core.theme.black
 import app.android.currency_converter.core.theme.blue
-import app.android.currency_converter.presentation.common_components.*
+import app.android.currency_converter.presentation.common_components.CurrencyInput
+import app.android.currency_converter.presentation.common_components.CurrencyItem
+import app.android.currency_converter.presentation.common_components.DropdownMenu
+import app.android.currency_converter.presentation.common_components.ErrorText
+import app.android.currency_converter.presentation.common_components.LinearProgressbar
+import app.android.currency_converter.presentation.common_components.SearchBox
+import app.android.currency_converter.presentation.common_components.Title
 import app.android.currency_converter.presentation.utils.showToast
 
 /**
@@ -36,8 +47,14 @@ fun HomeScreen(viewModel: HomeViewModel, hasNetwork: Boolean) {
 
     val currencyText by viewModel.currentCurrencyInput.collectAsStateWithLifecycle()
     val currencyList by viewModel.countryList.collectAsStateWithLifecycle()
-    val exchangeRateList by viewModel.latestExchangeRateList.collectAsStateWithLifecycle()
     val textFieldCurrencyLabel by viewModel.currentBaseCountry.collectAsStateWithLifecycle()
+    var searchQueryText by remember {
+        mutableStateOf("")
+    }
+    val exchangeRateList by viewModel.latestExchangeRateList.collectAsStateWithLifecycle()
+    val filteredList = if (searchQueryText.isNotEmpty()) exchangeRateList.filter {
+        viewModel.getCountryName(it.code).contains(searchQueryText, ignoreCase = true)
+    } else exchangeRateList
 
     val context = LocalContext.current
 
@@ -136,12 +153,23 @@ fun HomeScreen(viewModel: HomeViewModel, hasNetwork: Boolean) {
                 height = Dimension.fillToConstraints
             }, enter = fadeIn(), exit = fadeOut()
         ) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(dp10),
-                content = {
-                    items(exchangeRateList) {
-                        CurrencyItem(currency = it, countryName = viewModel.getCountryName(it.code))
-                    }
+            Column {
+                SearchBox(hint = "Search countries...", onTextChange = {
+                    searchQueryText = it
+                }, onSubmitText = {
+                    searchQueryText = it
                 })
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(dp10),
+                    modifier = Modifier.padding(top = 10.dp),
+                    content = {
+                        items(filteredList) {
+                            CurrencyItem(
+                                currency = it,
+                                countryName = viewModel.getCountryName(it.code)
+                            )
+                        }
+                    })
+            }
 
         }
 
